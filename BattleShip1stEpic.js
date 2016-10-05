@@ -36,18 +36,19 @@ $(document).ready(function() {
 
 
 function make_shot_at(position) {
-  // 2. As a user when I click on a position, the position changes color so that I can tell that a position has been torpedoed.
-  // Hint: Use .on("click", function() {...}) and addClass("...").
-    shots_fired++;
-    $("h3").text("Torpedoes Hit: " + shots_fired);
-    console.log("shots fired: " + shots_fired);
-
+// 2. As a user when I click on a position, the position changes color so that I can tell that a position has been torpedoed.
+// Hint: Use .on("click", function() {...}) and addClass("...").
+  shots_fired++;
+  $("h3").text("Torpedoes Hit: " + shots_fired);
+  console.log("shots fired: " + shots_fired);
   position.addClass("torpedoed");
 }
 
+//  4. As a user once a position has been torpedoed, it cannot be torpedoed again so that I don't waste torpedoes.
+// Hint: Use $("...").off("click")
 // If user already hit the posision it was already torpedoed and cannot be torpedoed again.
 // if (shots_fired(this) == true) {
-//   console.log("\nGAME OVER");
+//   console.log("This has been torpedoed");
 //   $("h3").text("Position has been torpedoed");
 //   $("td").off();
 
