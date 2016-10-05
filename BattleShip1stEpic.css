@@ -1,0 +1,21 @@
+body {
+  text-align: center;
+}
+
+td {
+  border: 1px #ccc solid;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 5px;
+}
+
+table {
+  text-align: center;
+  margin: 0 auto 0 auto;
+  padding: 0;
+}
+
+.torpedoed {
+  background: red;
+}
