@@ -11,9 +11,22 @@ h1 {
 
 h3 {
  font-family: helvetica;
- font-color: green;
  font-size: 18px;
  }
+
+h2 {
+font-weight: bolder;
+color: green;
+}
+
+
+h4 {
+font-weight: bolder;
+color: red;
+font-size: 20px;
+
+}
+
 
 td {
   border: 5px blue solid;

@@ -53,20 +53,23 @@ $(document).ready(function() {
 
     // Prevent same shot
     $(this).off("click");
-    //$(this).off("click");
 
 
     //hits the ships 5 times, you win.
     if (shipsHit ===5) {
-      console.log("You won the game!");
-      $("h2").text("You won the game!");
+      console.log("You won the game! GAME OVER");
+      $("h2").text("You won the game! GAME OVER");
+      $("td").off("click");
     }
+    //shots_fired 25 times, GAME OVER.
+    if (shots_fired === 25) {
+      $("td").off("click");
+      console.log("No more turns! LOST GAME!");
+      $("h4").text("No more turns! LOST GAME!");
+      revealShips();
 
-    // if (shipsHit ===25) {
-    //   console.log("No more turns!");
-    //   $("h2").text("No more turns!");
-    // }
-  });
+    }
+  })
 });
 
 
@@ -128,6 +131,7 @@ function shootAt(position) {
   console.log("shots fired: " + shots_fired);
 
 
+
 }
 
 //  4. As a user once a position has been torpedoed, it cannot be torpedoed again so that I don't waste torpedoes.
@@ -183,14 +187,20 @@ function makeShips() {
   }
 }
 
-//var position = parseInt($(this).attr("id"));
 
 
-
-
-
-// As a user when I click on a position I can see if there was a ship at that location so that I can see if I hit a ship. If there is a ship it counts as a hit.
+// As a user if I lose, I can see where the ships were, so that I know there were actual ships on the board.
 //
-// 6. Hint: Create a .on("click", function() {...} ) to check the board for the presence of a SHIP.
-// If nothing is there it is a MISS.
-// If a SHIP is there, it will be a HIT.
+// Hint: Use a .addClass("...") conditional on the torpedo counter.
+
+function revealShips() {
+  // TODO: Make a for loop to check rows
+  // TODO: Inside that, a for look to check columns
+  // TODO: If, inside those loops, there's a SHIP at a coordinate (board[row][col]), addClass to the coordinate
+  for (row = 0; row < 10; row++) {
+    for (column = 0; column < 10; column++)
+    if(board[row][column] == SHIP) {
+      $("#"+row+column).addClass("hit");
+    };
+  }
+}
