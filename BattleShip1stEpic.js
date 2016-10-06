@@ -18,41 +18,116 @@
 // Hint: Use $("...").off("click")
 //
 // As user I expect there to be 5 single length ships on the board.
+
+// var one_dimensional_array = [ 1, 2, 3 ];
+// var two_dimensional_array = [ [1, 2, 3], [1, 2, 3], [1, 2, 3] ];
+
 var board = [
-  [],
-  [],
-  [],
-  [],
-  [],
-  [],
-  [],
-  [],
-  [],
-  []
-]
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                                            ];
+
 var shots_fired = 0;
+var shipsHit = 0;
 var SHIP = 1;
 
 $(document).ready(function() {
-  // Start game
-  make_board();
 
-  placesShips();
+  // Start game
+  makeBoard();
+  makeShips();
 
   // Make a move
   $("td").on("click", function(){
-    make_shot_at($(this).off("click"));
+
+    // Make shot
+    shootAt($(this));
+
+    // Prevent same shot
+    $(this).off("click");
+    //$(this).off("click");
+
+
+    //hits the ships 5 times, you win.
+    if (shipsHit ===5) {
+      console.log("You won the game!");
+      $("h2").text("You won the game!");
+    }
+
+    // if (shipsHit ===25) {
+    //   console.log("No more turns!");
+    //   $("h2").text("No more turns!");
+    // }
   });
 });
 
-function make_shot_at(position) {
+
+function shipIsAt(position) {
+
+  // Get position where user clicks
+  var clicked = position.attr("id");
+
+  // Convert position id to coordinates
+  var row = clicked.charAt(0);
+  var col = clicked.charAt(1);
+
+  // If ship is at position
+  if (board[row][col] == 1) {
+
+    return true; // yes
+
+  // If ship is not at position
+  } else if (board[row][col] == 0) {
+
+    return false; // no
+
+  }
+
+}
+
+
+function shootAt(position) {
 // 2. As a user when I click on a position, the position changes color so that I can tell that a position has been torpedoed.
 // Hint: Use .on("click", function() {...}) and addClass("...").
+
+  // Record the shot (by increasing shots_fired value by 1)
   shots_fired++;
 
-  $("h3").text("Torpedoes Hit: " + shots_fired);
+  // Record shot in console
+  console.log("\nwe shot at " + position.attr("id"))
+
+  // if ship is hit
+  if (shipIsAt(position)) {
+
+    // show sinking ship
+    position.addClass("hit");
+    console.log("we hit ship!");
+
+    // record hit
+    shipsHit++;
+    console.log("ships hit: " + shipsHit);
+
+  // if ship is not hit
+  } else {
+
+    // Show that position was torpedoed
+    position.addClass("miss");
+    console.log("we missed ship!");
+  }
+
+  // Show shots fired
+  $("h3").text("Shots fired: " + shots_fired);
   console.log("shots fired: " + shots_fired);
-  position.addClass("torpedoed");
+
+
 }
 
 //  4. As a user once a position has been torpedoed, it cannot be torpedoed again so that I don't waste torpedoes.
@@ -60,22 +135,18 @@ function make_shot_at(position) {
 // If user already hit the posision it was already torpedoed and cannot be torpedoed again.
 
 //Create a 10x10 gameboard
-function make_board() {
+function makeBoard() {
   console.log ("making 10x10 gameboard");
-  console.log("shots fired: " + shots_fired);
 
   var html = "";
-  var box_number = 0;
-
 
   for (var row = 0; row < 10; row++) {
     // Start the row
     html = html + "<tr>";
-    // second loop (for table data)
-    for (var data = 0; data < 10; data++) {
+    // second loop (for table data in columns)
+    for (var column = 0; column < 10; column++) {
       // add IDs to html tds as row/data values, append to table var so we don't keep adding extra tds to the row forever
-      html = html + '<td id="' + box_number + '"></td>';
-      box_number++;
+      html = html + '<td id="' + row + column + '"></td>';
     }
     // End the row
     html = html + "</tr>";
@@ -83,20 +154,43 @@ function make_board() {
   $("table").append(html);
 }
 
-function placesShips() {
+function makeShips() {
+
+  // Track number of ships placed on board
   var shipsPlaced = 0;
+
+  // Store ship position
   var row;
   var column;
+
+  // Make 5 ships and place them on board
   while (shipsPlaced < 5) {
+
+    // Pick a random position
     row = Math.floor(Math.random() * 10);
     column = Math.floor(Math.random() * 10);
-    if (board[row][column] != SHIP) {
-      board[row][column] = SHIP
+
+    // Save ship to board (unless ship already exists)
+    if (board[row][column] != 1) {
+
+      // Add ship
+      board[row][column] = SHIP;
+      console.log("added a ship at " + row + column)
+
+      // Increment ship counter
       shipsPlaced++;
     }
   }
-  console.log(board)
 }
 
-// TODO: check for position of SHIP on board[row][column]
-// TODO: if above is true, addClass/onclick magic works (this part will happen in the controller)
+//var position = parseInt($(this).attr("id"));
+
+
+
+
+
+// As a user when I click on a position I can see if there was a ship at that location so that I can see if I hit a ship. If there is a ship it counts as a hit.
+//
+// 6. Hint: Create a .on("click", function() {...} ) to check the board for the presence of a SHIP.
+// If nothing is there it is a MISS.
+// If a SHIP is there, it will be a HIT.

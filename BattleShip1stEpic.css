@@ -1,9 +1,22 @@
 body {
   text-align: center;
+  background-image: url("https://c6.staticflickr.com/5/4117/4876598677_fc3b268bc9_b.jpg");
 }
 
+h1 {
+ font-family: fantasy;
+ font-color: green;
+ font-size: 32px;
+ }
+
+h3 {
+ font-family: helvetica;
+ font-color: green;
+ font-size: 18px;
+ }
+
 td {
-  border: 1px #ccc solid;
+  border: 5px blue solid;
   width: 30px;
   height: 30px;
   text-align: center;
@@ -16,6 +29,11 @@ table {
   padding: 0;
 }
 
-.torpedoed {
-  background: red;
+.miss {
+  background: blue;
+}
+
+.hit {
+  background-image: url("http://55bets.net/images/explosion-147909_640.png");
+  background-size:contain;
 }
