@@ -1,17 +1,28 @@
 body {
   text-align: center;
-  background-image: url("https://c6.staticflickr.com/5/4117/4876598677_fc3b268bc9_b.jpg");
+  background-image:  url("http://www.netanimations.net/water_waves_ocean_ripple_high_quality_animated_gif.gif");
+
 }
 
+
+
+
 h1 {
+ padding-top: 10px;
  font-family: fantasy;
- font-color: green;
+ color: white;
+ background-color: #005f95;
  font-size: 32px;
  }
 
 h3 {
- font-family: helvetica;
- font-size: 18px;
+ padding: inherit;
+ font-family: fantasy;
+ background-color: #005f95;
+ color: white;
+ font-weight: bolder;
+ font-size: 20px;
+
  }
 
 h2 {
@@ -21,15 +32,17 @@ color: green;
 
 
 h4 {
+padding: inherit;
+font-family: fantasy;
+background-color: #005f95;
 font-weight: bolder;
-color: red;
+color: white;
 font-size: 20px;
-
 }
 
 
 td {
-  border: 5px blue solid;
+  border: 5px #005f95 solid;
   width: 30px;
   height: 30px;
   text-align: center;
@@ -43,7 +56,7 @@ table {
 }
 
 .miss {
-  background: blue;
+  background: #005f95;
 }
 
 .hit {

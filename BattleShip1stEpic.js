@@ -36,6 +36,7 @@ var board = [
                                             ];
 
 var shots_fired = 0;
+var torpedoes = 25;
 var shipsHit = 0;
 var SHIP = 1;
 
@@ -51,20 +52,23 @@ $(document).ready(function() {
     // Make shot
     shootAt($(this));
 
+    // 4.  As a user once a position has been torpedoed, it cannot be torpedoed again so that I don't waste torpedoes.
+    //
+    // Hint: Use $("...").off("click")
     // Prevent same shot
     $(this).off("click");
 
 
     //hits the ships 5 times, you win.
     if (shipsHit ===5) {
-      console.log("You won the game! GAME OVER");
+      console.log("\nYou won the game! GAME OVER");
       $("h2").text("You won the game! GAME OVER");
       $("td").off("click");
     }
     //shots_fired 25 times, GAME OVER.
     if (shots_fired === 25) {
       $("td").off("click");
-      console.log("No more turns! LOST GAME!");
+      console.log("\nNo more turns! LOST GAME!");
       $("h4").text("No more turns! LOST GAME!");
       revealShips();
 
@@ -104,6 +108,9 @@ function shootAt(position) {
   // Record the shot (by increasing shots_fired value by 1)
   shots_fired++;
 
+  // Record torpedoes left
+  torpedoes--;
+
   // Record shot in console
   console.log("\nwe shot at " + position.attr("id"))
 
@@ -121,23 +128,24 @@ function shootAt(position) {
   // if ship is not hit
   } else {
 
+
+    // Hint: Use .on("click", function() {...}) and addClass("...").
+
     // Show that position was torpedoed
     position.addClass("miss");
     console.log("we missed ship!");
   }
-
+// 3. As a user I can see how many torpedoes I have used, so that I can keep track of how many I have used.
   // Show shots fired
-  $("h3").text("Shots fired: " + shots_fired);
-  console.log("shots fired: " + shots_fired);
+  $("h3").text("Shots Fired: " + shots_fired);
+  console.log("shots Fired: " + shots_fired);
 
-
-
+  // $("h3").text("torpedoes: " - shipsHit);
+  $("h4").text("Torpedoes Left: " + torpedoes);
+  console.log("Torpedoes Left: " + torpedoes);
 }
 
-//  4. As a user once a position has been torpedoed, it cannot be torpedoed again so that I don't waste torpedoes.
-// Hint: Use $("...").off("click")
-// If user already hit the posision it was already torpedoed and cannot be torpedoed again.
-
+// 1. As a user I can see a 10 x 10 grid so that I can see the gameboard.
 //Create a 10x10 gameboard
 function makeBoard() {
   console.log ("making 10x10 gameboard");
@@ -167,6 +175,13 @@ function makeShips() {
   var row;
   var column;
 
+
+  // 5.  As user I expect there to be 5 single length ships on the board.
+  //
+  // Hint: Create a global variable called board and have it hold an empty array. Have that empty array hold 10 empty arrays, creating a 2d array.
+  // Hint: Create a global constant SHIP variable with a value of 1.
+  // Hint: Create a loop that accesses the board at a random row and column and places a SHIP.
+
   // Make 5 ships and place them on board
   while (shipsPlaced < 5) {
 
@@ -175,19 +190,21 @@ function makeShips() {
     column = Math.floor(Math.random() * 10);
 
     // Save ship to board (unless ship already exists)
-    if (board[row][column] != 1) {
+    if (board[row][column] != SHIP) {
 
-      // Add ship
-      board[row][column] = SHIP;
-      console.log("added a ship at " + row + column)
+      // Save ship if no ships are nearby
+      if (radar(row, column) == 0) {
+
+        // Add ship
+        board[row][column] = SHIP;
+        console.log("added a ship at " + row + column);
+      }
 
       // Increment ship counter
       shipsPlaced++;
     }
   }
 }
-
-
 
 // As a user if I lose, I can see where the ships were, so that I know there were actual ships on the board.
 //
@@ -204,3 +221,46 @@ function revealShips() {
     };
   }
 }
+
+// Second Epic : 2. As a user I don't have ships that touch, so that there is always space between ships.
+
+
+//Checks for horizontal
+function radar(row, column) {
+  var shipsOnRadar = 0;
+  var row = row; // row where we want to put ship
+  var column = column;  // column where we want to put ship
+
+  // Look one block away from current position around ship
+  // loop over potential rows
+  // [0,1,2]
+  //   // loop over potential columns
+  //   [0,1,2]
+  //     // check board for ship at potential position
+  //     // board[potential row, potential column]
+  //     board[0][0]; // check for ship
+  //     board[0][1]; // check for ship
+  //     board[0][2]; // check for ship
+  //
+  //     board[0][0]; // check for ship
+  //     board[0][1]; // check for ship
+  //     board[0][2]; // check for ship
+  //
+  //     board[0][0]; // check for ship
+  //     board[0][1]; // check for ship
+  //     board[0][2]; // check for ship
+
+    // For each ship we find, increase shipsOnRadar count by 1
+      // shipsRadar++;
+
+  // Report shipsOnRadar back to our captain
+  return shipsOnRadar;
+}
+
+
+
+
+
+// Hint: Create a function that checks the board horizontally for a ship.
+// Hint: Create a function that checks the board vertically for a ship.
+// Hint: Before placing the ship run both functions.
